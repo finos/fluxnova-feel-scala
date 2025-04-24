@@ -14,5 +14,8 @@ jobs:
     - name: Java setup
       uses: ./.github/actions/java-setup
 
-    - name: Run Maven
-      run: mvn -B clean -P checkFormat verify
+    - name: Build
+      run: mvn -B -e clean deploy
+
+    - name: Unit tests
+      run: mvn -B -e clean -P checkFormat verify

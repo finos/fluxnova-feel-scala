@@ -14,7 +14,7 @@ jobs:
     - name: Java setup
       uses: ./.github/actions/java-setup
 
-    - name: Build
+    - name: Build and Deploy
       run: mvn -B -e clean deploy
 
     - name: Unit tests

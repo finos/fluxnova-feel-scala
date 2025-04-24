@@ -1,3 +1,5 @@
+[![FINOS - Forming](https://cdn.jsdelivr.net/gh/finos/contrib-toolbox@master/images/badge-forming.svg)](https://community.finos.org/docs/governance/Software-Projects/project-lifecycle)
+
 # FEEL Scala
 
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.camunda.feel/feel-engine/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.camunda.feel/feel-engine)
@@ -33,4 +35,8 @@ Contributions are welcome 🎉 Please have a look at the [Contribution Guide](./
 
 ## License
 
-[Apache License, Version 2.0](./LICENSE)
+Copyright 2025 FINOS
+
+The source files in this repository are made available under the [Apache License Version 2.0](./LICENSE).
+
+SPDX-License-Identifier: [Apache-2.0](https://spdx.org/licenses/Apache-2.0)

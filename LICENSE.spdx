@@ -1,0 +1,7 @@
+SPDXVersion: SPDX-2.0
+DataLicense: CC0-1.0
+Creator: finos
+PackageName: flowave-feel-scala
+PackageOriginator: finos
+PackageHomePage: https://github.com/finos/flowave-feel-scala
+PackageLicenseDeclared: Apache-2.0

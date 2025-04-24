@@ -1,5 +1,7 @@
 # Contributor Covenant Code of Conduct
 
+Please see the [Community Code of Conduct](https://www.finos.org/code-of-conduct).
+
 ## Our Pledge
 
 In the interest of fostering an open and welcoming environment, we as

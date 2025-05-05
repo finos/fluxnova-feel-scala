@@ -11,13 +11,13 @@
 
   <groupId>org.camunda.feel</groupId>
   <artifactId>feel-engine</artifactId>
-  <version>1.20.0-SNAPSHOT</version>
+  <version>1.19.1</version>
   <name>FEEL Scala Engine</name>
 
   <properties>
-    <scala.version>2.13.16</scala.version>
+    <scala.version>2.13.15</scala.version>
     <scala.binary.version>2.13.6</scala.binary.version>
-    <version.log4j>2.24.3</version.log4j>
+    <version.log4j>2.24.2</version.log4j>
     <version.uuid>5.1.0</version.uuid>
 
     <plugin.version.shade>3.6.0</plugin.version.shade>
@@ -526,7 +526,7 @@
   <scm>
     <connection>scm:git:https://${env.GITHUB_TOKEN_USR}:${env.GITHUB_TOKEN_PSW}@github.com/camunda/feel-scala.git</connection>
     <developerConnection>scm:git:https://${env.GITHUB_TOKEN_USR}:${env.GITHUB_TOKEN_PSW}@github.com/camunda/feel-scala.git</developerConnection>
-    <tag>HEAD</tag>
+    <tag>1.19.1</tag>
     <url>https://github.com/camunda/feel-scala</url>
   </scm>
 

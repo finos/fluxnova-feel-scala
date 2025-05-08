@@ -523,11 +523,27 @@
     </license>
   </licenses>
 
-  <scm>
-    <connection>scm:git:https://${env.GITHUB_TOKEN_USR}:${env.GITHUB_TOKEN_PSW}@github.com/camunda/feel-scala.git</connection>
-    <developerConnection>scm:git:https://${env.GITHUB_TOKEN_USR}:${env.GITHUB_TOKEN_PSW}@github.com/camunda/feel-scala.git</developerConnection>
-    <tag>1.19.1</tag>
-    <url>https://github.com/camunda/feel-scala</url>
-  </scm>
+  <repositories>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/finos/flowave-feel-scala</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
+  </repositories>
+
+  <distributionManagement>
+    <repository>
+      <id>github</id>
+      <name>GitHub Flowave Maven Packages</name>
+      <url>https://maven.pkg.github.com/finos/flowave-feel-scala</url>
+    </repository>
+    <snapshotRepository>
+      <id>github</id>
+      <name>GitHub Flowave Maven Packages</name>
+      <url>https://maven.pkg.github.com/finos/flowave-feel-scala</url>
+    </snapshotRepository>
+  </distributionManagement>
 
 </project>

@@ -3,8 +3,9 @@
 name: Repository dispatch Release
 
 on:
-  repository_dispatch:
-    types: [ build_release ]
+  workflow_dispatch:
+#  repository_dispatch:
+#    types: [ build_release ]
 
 jobs:
   run-release:

@@ -1,8 +1,9 @@
 name: publish-docs
 
 on:
-  push:
-    branches: [main]
+  workflow_dispatch:
+#  push:
+#    branches: [main]
 
 env:
   # Used by docusaurus publish-site command

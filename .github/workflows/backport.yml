@@ -1,9 +1,10 @@
 name: Backport labeled merged pull requests
 on:
-  pull_request:
-    types: [closed]
-  issue_comment:
-    types: [created]
+  workflow_dispatch:
+#  pull_request:
+#    types: [closed]
+#  issue_comment:
+#    types: [created]
 jobs:
   build:
     name: Create backport PRs

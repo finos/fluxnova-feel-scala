@@ -1,6 +1,6 @@
 name: Release a new version
 on:
-  workflow_call:
+#  workflow_call:
   workflow_dispatch:
     inputs:
       releaseBranch:

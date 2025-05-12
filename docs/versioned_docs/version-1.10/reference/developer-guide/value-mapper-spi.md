@@ -21,7 +21,7 @@ Using the SPI, the transformation can be customized to support more/custom data 
   
 <TabItem value="scala">
 
-Create a sub-class of `org.camunda.feel.spi.CustomValueMapper`. Implement the method `toVal()` and `unpackVal()` to transform the object. Set the `priority` of the value mapper to define the precedence compared to the other mappers. 
+Create a sub-class of `org.flowave.feel.spi.CustomValueMapper`. Implement the method `toVal()` and `unpackVal()` to transform the object. Set the `priority` of the value mapper to define the precedence compared to the other mappers. 
 
 ```scala
 class MyValueMapper extends CustomValueMapper {
@@ -44,7 +44,7 @@ class MyValueMapper extends CustomValueMapper {
 </TabItem>
 <TabItem value="java">
 
-Using Java, create a sub-class of `org.camunda.feel.spi.JavaCustomValueMapper`. It is basically equal to the Scala one but with Java instead of Scala types.
+Using Java, create a sub-class of `org.flowave.feel.spi.JavaCustomValueMapper`. It is basically equal to the Scala one but with Java instead of Scala types.
 
 ```java
 public class CustomJavaValueMapper extends JavaCustomValueMapper {
@@ -85,8 +85,8 @@ public class CustomJavaValueMapper extends JavaCustomValueMapper {
 
 Depending how the FEEL engine is used, the value mapper can be passed directly on creation, or is loaded via Java ServiceLoader mechanism. 
 
-In the second case, create a new file `org.camunda.feel.spi.CustomValueMapper` in the folder `META-INF/services/`. It must contain the full qualified name of the value mapper.
+In the second case, create a new file `org.flowave.feel.spi.CustomValueMapper` in the folder `META-INF/services/`. It must contain the full qualified name of the value mapper.
 
 ```
-org.camunda.feel.example.spi.MyValueMapper
+org.flowave.feel.example.spi.MyValueMapper
 ```

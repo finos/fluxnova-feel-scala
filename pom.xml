@@ -3,13 +3,13 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.camunda</groupId>
-    <artifactId>camunda-bpm-release-parent</artifactId>
+    <groupId>org.flowave</groupId>
+    <artifactId>flowave-bpm-release-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <relativePath />
   </parent>
 
-  <groupId>org.camunda.feel</groupId>
+  <groupId>org.flowave.feel</groupId>
   <artifactId>feel-engine</artifactId>
   <version>0.0.1-SNAPSHOT</version>
   <name>FEEL Scala Engine</name>

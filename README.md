@@ -2,7 +2,7 @@
 
 # FEEL Scala
 
-[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.camunda.feel/feel-engine/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.camunda.feel/feel-engine)
+[![Maven Central](https://maven-badges.herokuapp.com/maven-central/org.flowave.feel/feel-engine/badge.svg)](https://maven-badges.herokuapp.com/maven-central/org.flowave.feel/feel-engine)
 
 A parser and interpreter for FEEL that is written in Scala (see [What is FEEL?](https://docs.camunda.io/docs/next/components/modeler/feel/what-is-feel/)).
 

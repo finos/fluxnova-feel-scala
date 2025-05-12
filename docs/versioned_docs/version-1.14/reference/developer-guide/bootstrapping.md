@@ -23,13 +23,11 @@ Add the engine as dependency to your project's `pom.xml`:
 
 ```xml
 <dependency>
-  <groupId>org.camunda.feel</groupId>
+  <groupId>org.flowave.feel</groupId>
   <artifactId>feel-engine</artifactId>
   <version>${VERSION}</version>
 </dependency>
 ```
-
-Or, download the [JAR file](https://github.com/camunda/feel-scala/releases) _(feel-engine-${VERSION}-complete.jar)_ and copy it into your application.
 
 ### Use as a library
 

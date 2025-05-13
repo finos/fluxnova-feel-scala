@@ -531,6 +531,13 @@
         <enabled>true</enabled>
       </snapshots>
     </repository>
+    <repository>
+      <id>github</id>
+      <url>https://maven.pkg.github.com/finos/flowave-bpm-release-parent</url>
+      <snapshots>
+        <enabled>true</enabled>
+      </snapshots>
+    </repository>
   </repositories>
 
   <distributionManagement>

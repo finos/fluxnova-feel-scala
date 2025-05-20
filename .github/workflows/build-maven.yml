@@ -1,7 +1,7 @@
 name: Build Scala project
 
 env:
-  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 on:
   push:
@@ -29,8 +29,11 @@ jobs:
     - name: Java setup
       uses: ./.github/actions/java-setup
 
+    - name: Set version
+      run: mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -DgenerateBackupPoms=false -s ./settings.xml
+
     - name: Unit tests
-      run: mvn -B -e clean -P checkFormat verify
+      run: mvn -B -e clean -P checkFormat verify -s ./settings.xml
 
     - name: Build and Deploy
-      run: mvn -B -e clean deploy
+      run: mvn -B -e clean deploy -s ./settings.xml

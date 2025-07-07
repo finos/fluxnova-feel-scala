@@ -23,7 +23,7 @@ Add the engine as dependency to your project's `pom.xml`:
 
 ```xml
 <dependency>
-  <groupId>org.flowave.feel</groupId>
+  <groupId>org.finos.flowave.feel</groupId>
   <artifactId>feel-engine</artifactId>
   <version>${VERSION}</version>
 </dependency>

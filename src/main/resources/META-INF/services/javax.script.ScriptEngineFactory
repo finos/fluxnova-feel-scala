@@ -1,2 +1,2 @@
-org.flowave.feel.impl.script.FeelScriptEngineFactory
-org.flowave.feel.impl.script.FeelUnaryTestsScriptEngineFactory
+org.finos.flowave.feel.impl.script.FeelScriptEngineFactory
+org.finos.flowave.feel.impl.script.FeelUnaryTestsScriptEngineFactory

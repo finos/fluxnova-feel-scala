@@ -23,7 +23,7 @@ Using the SPI, the function can be implemented in Scala/Java and is not limited 
   
 <TabItem value="scala">
 
-Create a sub-class of `org.finos.flowave.feel.spi.CustomFunctionProvider` and implement the method `getFunction()` which returns the function for the given name. If a function can have different parameters (i.e. different parameter count) then override `getFunctions()` instead.
+Create a sub-class of `org.finos.fluxnova.feel.spi.CustomFunctionProvider` and implement the method `getFunction()` which returns the function for the given name. If a function can have different parameters (i.e. different parameter count) then override `getFunctions()` instead.
 
 ```scala
 class CustomScalaFunctionProvider extends CustomFunctionProvider {
@@ -49,7 +49,7 @@ The function must be of type `ValFunction`. It contains
 
 </TabItem>
 <TabItem value="java">
-Using Java, create a sub-class of `org.finos.flowave.feel.spi.JavaFunctionProvider` instead. It is equal to the Scala one but uses more Java-like classes. 
+Using Java, create a sub-class of `org.finos.fluxnova.feel.spi.JavaFunctionProvider` instead. It is equal to the Scala one but uses more Java-like classes. 
 
 ```java
 public class CustomJavaFunctionProvider extends JavaFunctionProvider
@@ -89,9 +89,9 @@ public class CustomJavaFunctionProvider extends JavaFunctionProvider
 
 Depending how the FEEL engine is used, the function provider can be passed directly on creation, or is loaded via Java ServiceLoader mechanism. 
 
-In the second case, create a new file `org.finos.flowave.feel.spi.CustomFunctionProvider` in the folder `META-INF/services/`. It must contain all function providers by their full qualified name.
+In the second case, create a new file `org.finos.fluxnova.feel.spi.CustomFunctionProvider` in the folder `META-INF/services/`. It must contain all function providers by their full qualified name.
 
 ```
-org.finos.flowave.feel.example.spi.CustomScalaFunctionProvider
-org.finos.flowave.feel.example.spi.CustomJavaFunctionProvider
+org.finos.fluxnova.feel.example.spi.CustomScalaFunctionProvider
+org.finos.fluxnova.feel.example.spi.CustomJavaFunctionProvider
 ```

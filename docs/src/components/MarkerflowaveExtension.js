@@ -1,6 +1,6 @@
 import React from 'react';
 
-export const MarkerFlowaveExtension = () => {
+export const MarkerFluxnovaExtension = () => {
   return (
       <p>
         <span style={{
@@ -10,11 +10,11 @@ export const MarkerFlowaveExtension = () => {
           padding: '0.2rem',
           marginRight: '0.5rem'
         }}
-              title={"This feature is not part of the official DMN standard. It is an extension from Flowave's" +
-                " implementation."}>Flowave Extension</span>
+              title={"This feature is not part of the official DMN standard. It is an extension from Fluxnova's" +
+                " implementation."}>Fluxnova Extension</span>
       </p>
   );
 }
 
-export default MarkerFlowaveExtension;
+export default MarkerFluxnovaExtension;
 

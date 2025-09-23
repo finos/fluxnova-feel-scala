@@ -1,5 +1,5 @@
 // import the FEEL engine library
-import $ivy.`org.finos.flowave.feel:feel-engine:1.19.1`, org.finos.flowave.feel._, org.finos.flowave.feel.api._
+import $ivy.`org.finos.fluxnova.feel:feel-engine:1.19.1`, org.finos.fluxnova.feel._, org.finos.fluxnova.feel.api._
 
 // import a logging library
 import $ivy.`org.apache.logging.log4j:log4j-slf4j-impl:2.14.0`,

@@ -4,6 +4,7 @@ env:
   CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
   CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
   CI_GPG_PASSPHRASE: ${{ secrets.CI_GPG_PASSPHRASE }}
+  GH_TOKEN: ${{ secrets.GH_TOKEN }}
 
 # pull_request condition added temporarily to test the workflow
 # once verified, it shall be removed

@@ -535,6 +535,56 @@
         </plugins>
       </build>
     </profile>
+
+    <profile>
+      <id>release</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-gpg-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>sign-release-artifacts</id>
+                <phase>verify</phase>
+                <goals>
+                  <goal>sign</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-javadoc-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>attach-javadocs</id>
+                <phase>package</phase>
+                <goals>
+                  <goal>jar</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+          <!-- Same as attach-sources profile -->
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-source-plugin</artifactId>
+            <configuration>
+              <skipSource>${skip.source.attach}</skipSource>
+            </configuration>
+            <executions>
+              <execution>
+                <id>release-attach-sources</id>
+                <goals>
+                  <goal>jar-no-fork</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
   </profiles>
 
   <licenses>
@@ -561,8 +611,6 @@
     </repository>
   </repositories>
 
-  <!-- commented as per instruction on https://community.finos.org/docs/development-infrastructure/continuous-integration/java/#artifact-publishing
-  for publishing artifacts on maven central
   <distributionManagement>
     <repository>
       <id>fluxnova-feel-scala</id>
@@ -574,6 +622,6 @@
       <name>GitHub Fluxnova Maven Packages</name>
       <url>https://maven.pkg.github.com/finos/fluxnova-feel-scala</url>
     </snapshotRepository>
-  </distributionManagement>-->
+  </distributionManagement>
 
 </project>

@@ -29,8 +29,11 @@ jobs:
     - name: Java setup
       uses: ./.github/actions/java-setup
 
+      # The hardcoded version will be dynamically set in release workflows later
     - name: Set version
-      run: mvn versions:set -DnewVersion=0.0.1-SNAPSHOT -DgenerateBackupPoms=false -s ./settings.xml
+      uses: ./.github/actions/set-project-version
+      with:
+        version: 1.0.0-SNAPSHOT
 
     - name: Unit tests
       run: mvn -B -e clean -P checkFormat verify -s ./settings.xml

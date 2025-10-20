@@ -1,0 +1,7 @@
+name: 'Set Project Version'
+description: 'Sets version'
+runs:
+  using: 'composite'
+  steps:
+    - run: mvn versions:set -DnewVersion=${{ inputs.version }} -DgenerateBackupPoms=false -s ./settings.xml
+      shell: bash

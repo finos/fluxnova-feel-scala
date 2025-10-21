@@ -537,7 +537,7 @@
     </profile>
 
     <!-- TODO : test if release profile gets inherited
-    <!--profile>
+    <profile>
       <id>release</id>
       <build>
         <plugins>

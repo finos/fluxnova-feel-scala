@@ -12,7 +12,7 @@
 
   <groupId>org.finos.fluxnova.feel</groupId>
   <artifactId>feel-engine</artifactId>
-  <version>0.0.1-SNAPSHOT</version>
+  <version>0.0.1</version>
   <name>FEEL Scala Engine</name>
 
   <url>http://fluxnova.finos.org</url>
@@ -20,7 +20,7 @@
     <connection>scm:git:https://github.com/finos/fluxnova-feel-scala.git</connection>
     <developerConnection>scm:git:https://github.com/finos/fluxnova-feel-scala.git</developerConnection>
     <url>https://github.com/finos/fluxnova-feel-scala</url>
-    <tag>HEAD</tag>
+    <tag>feel-engine-0.0.1</tag>
   </scm>
 
 

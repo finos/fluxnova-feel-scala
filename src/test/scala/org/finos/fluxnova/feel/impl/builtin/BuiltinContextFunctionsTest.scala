@@ -16,10 +16,12 @@
  */
 package org.finos.fluxnova.feel.impl.builtin
 
-import org.finos.fluxnova.feel.context.{CustomContext, VariableProvider}
+import org.finos.fluxnova.feel.api.FeelEngineBuilder
+import org.finos.fluxnova.feel.context.Context
 import org.finos.fluxnova.feel.impl.interpreter.MyCustomContext
 import org.finos.fluxnova.feel.impl.{EvaluationResultMatchers, FeelEngineTest}
 import org.finos.fluxnova.feel.syntaxtree._
+import org.finos.fluxnova.feel.valuemapper.CustomValueMapper
 import org.scalatest.flatspec.AnyFlatSpec
 import org.scalatest.matchers.should.Matchers
 
@@ -234,7 +236,36 @@ class BuiltinContextFunctionsTest
     )
   }
 
-  it should "add nested context entry if key doesn't exist" in {
+  it should "handle a lazy value mapper" in {
+      val lazyEngine = FeelEngineBuilder()
+        .withCustomValueMapper(new CustomValueMapper {
+          override def toVal(x: Any, innerValueMapper: Any => Val): Option[Val] = x match {
+            case x: Map[String, Any] =>
+              Some {
+                ValContext(
+                  Context.StaticContext(
+                    variables = x, // don't eagerly map inner values
+                  )
+                )
+              }
+            case  _ => None // fallback to default
+          }
+
+          override def unpackVal(value: Val, innerValueMapper: Val => Any): Option[Any] = {
+            None // fallback to default
+          }
+        })
+        .build()
+
+      lazyEngine.evaluateExpression(
+        """ context put(vars, ["a", "c"], 3) """,
+        Map("vars" -> Map("a" -> Map("b" -> 1, "c" -> 2)))
+      ) should returnResult(
+        Map("a" -> Map("b" -> 1, "c" -> 3))
+      )
+    }
+
+    it should "add nested context entry if key doesn't exist" in {
     evaluateExpression(""" context put({x:1}, ["y", "z"], 2) """) should returnResult(
       Map("x" -> 1, "y" -> Map("z" -> 2))
     )

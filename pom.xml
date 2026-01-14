@@ -421,6 +421,11 @@
                   <shadedPattern>fluxnovajar.impl.sourcecode</shadedPattern>
                 </relocation>
 
+                <relocation>
+                  <pattern>com.fasterxml.uuid</pattern>
+                  <shadedPattern>fluxnovajar.impl.com.fasterxml.uuid</shadedPattern>
+                </relocation>
+
               </relocations>
 
             </configuration>

@@ -29,8 +29,10 @@ jobs:
     - name: Java setup
       uses: ./.github/actions/java-setup
 
-    - name: Unit tests
-      run: mvn -B -e clean -P checkFormat verify -s ./settings.xml
+    - name: Build
+      if: github.event_name == 'pull_request' || (github.event_name == 'workflow_dispatch' && github.ref != 'refs/heads/main')
+      run: mvn -B -e clean install
 
-    - name: Build and Deploy
+    - name: Deploy
+      if: (github.event_name == 'push' && github.ref == 'refs/heads/main') || (github.event_name == 'workflow_dispatch' && github.ref == 'refs/heads/main')
       run: mvn -B -e clean deploy -s ./settings.xml

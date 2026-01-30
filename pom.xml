@@ -596,15 +596,23 @@
 
   <repositories>
     <repository>
-      <id>fluxnova-feel-scala</id>
-      <url>https://maven.pkg.github.com/finos/fluxnova-feel-scala</url>
-      <snapshots>
+      <id>central</id>
+      <name>Maven Central Repository</name>
+      <url>https://repo.maven.apache.org/maven2</url>
+      <releases>
         <enabled>true</enabled>
+      </releases>
+      <snapshots>
+        <enabled>false</enabled>
       </snapshots>
     </repository>
     <repository>
-      <id>fluxnova-bpm-release-parent</id>
-      <url>https://maven.pkg.github.com/finos/fluxnova-bpm-release-parent</url>
+      <id>ossrh-snapshots</id>
+      <name>Sonatype OSSRH Snapshots</name>
+      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+      <releases>
+        <enabled>false</enabled>
+      </releases>
       <snapshots>
         <enabled>true</enabled>
       </snapshots>
@@ -613,9 +621,9 @@
 
   <distributionManagement>
     <snapshotRepository>
-      <id>fluxnova-feel-scala</id>
-      <name>GitHub Fluxnova Maven Packages</name>
-      <url>https://maven.pkg.github.com/finos/fluxnova-feel-scala</url>
+      <id>ossrh</id>
+      <name>Central Portal Snapshots</name>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
     </snapshotRepository>
   </distributionManagement>
 

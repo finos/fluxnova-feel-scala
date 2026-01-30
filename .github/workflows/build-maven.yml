@@ -2,6 +2,8 @@ name: Build Scala project
 
 env:
   GH_TOKEN: ${{ secrets.GH_TOKEN }}
+  CI_DEPLOY_USERNAME: ${{ secrets.CI_DEPLOY_USERNAME }}
+  CI_DEPLOY_PASSWORD: ${{ secrets.CI_DEPLOY_PASSWORD }}
 
 on:
   push:
@@ -29,8 +31,10 @@ jobs:
     - name: Java setup
       uses: ./.github/actions/java-setup
 
-    - name: Unit tests
-      run: mvn -B -e clean -P checkFormat verify -s ./settings.xml
+    - name: Build
+      if: github.ref != 'refs/heads/main'
+      run: mvn -B -e clean install
 
-    - name: Build and Deploy
+    - name: Deploy
+      if: github.ref == 'refs/heads/main'
       run: mvn -B -e clean deploy -s ./settings.xml

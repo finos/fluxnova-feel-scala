@@ -614,7 +614,7 @@
     <repository>
       <id>ossrh-snapshots</id>
       <name>Sonatype OSSRH Snapshots</name>
-      <url>https://s01.oss.sonatype.org/content/repositories/snapshots/</url>
+      <url>https://central.sonatype.com/repository/maven-snapshots/</url>
       <releases>
         <enabled>false</enabled>
       </releases>

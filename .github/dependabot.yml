@@ -5,6 +5,7 @@ updates:
     schedule:
       interval: daily
       timezone: Europe/Berlin
+    open-pull-requests-limit: 0
     ignore:
       - dependency-name: org.antipathy:mvn-scalafmt_2.12
         versions:
@@ -20,3 +21,4 @@ updates:
     directory: "/"
     schedule:
       interval: "daily"
+    open-pull-requests-limit: 0

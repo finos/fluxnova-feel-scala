@@ -2,19 +2,29 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
   <modelVersion>4.0.0</modelVersion>
 
-  <parent>
-    <groupId>org.finos.fluxnova</groupId>
-    <artifactId>fluxnova-bpm-release-parent</artifactId>
-    <version>2.0.0</version>
-    <relativePath />
-  </parent>
-
   <groupId>org.finos.fluxnova.feel</groupId>
   <artifactId>feel-engine</artifactId>
   <version>3.0.0-SNAPSHOT</version>
+  <packaging>jar</packaging>
   <name>FEEL Scala Engine</name>
+  <description>A Scala implementation of the DMN FEEL (Friendly Enough Expression Language) engine, providing a parser, interpreter and Java/Scala API to evaluate FEEL expressions.</description>
 
   <url>http://fluxnova.finos.org</url>
+
+  <organization>
+    <name>Fluxnova Community</name>
+    <url>http://fluxnova.finos.org</url>
+  </organization>
+
+  <developers>
+    <developer>
+      <id>fluxnova.finos.org</id>
+      <name>Fluxnova Community</name>
+      <organization>fluxnova.finos.org</organization>
+      <organizationUrl>http://fluxnova.finos.org</organizationUrl>
+    </developer>
+  </developers>
+
   <scm>
     <connection>scm:git:https://github.com/finos/fluxnova-feel-scala.git</connection>
     <developerConnection>scm:git:https://github.com/finos/fluxnova-feel-scala.git</developerConnection>
@@ -22,23 +32,53 @@
     <tag>HEAD</tag>
   </scm>
 
-
+  <issueManagement>
+    <system>GitHub Issues</system>
+    <url>https://github.com/orgs/finos/projects/116</url>
+  </issueManagement>
 
   <properties>
+    <!-- encoding -->
+    <encoding>UTF-8</encoding>
+    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
+    <project.build.resourceEncoding>${encoding}</project.build.resourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- we use java 21 for our projects (from fluxnova-release-parent) -->
+    <version.java>21</version.java>
+
+    <!-- scala / feel-engine specific -->
     <scala.version>2.13.18</scala.version>
     <scala.binary.version>2.13.6</scala.binary.version>
     <version.log4j>2.24.2</version.log4j>
     <version.uuid>5.2.0</version.uuid>
 
-    <plugin.version.shade>3.6.1</plugin.version.shade>
-    <plugin.version.gpg>1.6</plugin.version.gpg>
-    <plugin.version.javadoc>2.9.1</plugin.version.javadoc>
+    <!-- release / publishing (from fluxnova-release-parent) -->
+    <skip.camunda.release>false</skip.camunda.release>
+    <skip.central.release>false</skip.central.release>
+    <gpg.useagent>true</gpg.useagent>
+    <gpg.executable>gpg</gpg.executable>
+    <publish.server.id>ossrh</publish.server.id>
+    <release.goals>install org.sonatype.central:central-publishing-maven-plugin:0.11.0:publish</release.goals>
+    <skip.source.attach>false</skip.source.attach>
 
-    <encoding>UTF-8</encoding>
-
-    <project.build.sourceEncoding>${encoding}</project.build.sourceEncoding>
-    <project.build.resourceEncoding>${encoding}</project.build.resourceEncoding>
+    <!-- third-party license bom (from fluxnova-bpm-release-parent, overridden here to generate the bom) -->
     <skip-third-party-bom>false</skip-third-party-bom>
+    <third-party-bom-scopes>compile</third-party-bom-scopes>
+
+    <!-- plugin versions (overridden values from feel-scala take precedence over parent defaults) -->
+    <plugin.version.clean>2.6.1</plugin.version.clean>
+    <plugin.version.compiler>3.14.0</plugin.version.compiler>
+    <plugin.version.jar>2.6</plugin.version.jar>
+    <plugin.version.assembly>2.6</plugin.version.assembly>
+    <plugin.version.deploy>3.1.4</plugin.version.deploy>
+    <plugin.version.source>3.3.1</plugin.version.source>
+    <plugin.version.javadoc>2.9.1</plugin.version.javadoc>
+    <plugin.version.gpg>1.6</plugin.version.gpg>
+    <plugin.version.release>3.3.1</plugin.version.release>
+    <plugin.version.publish>0.11.0</plugin.version.publish>
+    <plugin.version.license>5.0.0</plugin.version.license>
+    <plugin.version.shade>3.6.1</plugin.version.shade>
   </properties>
 
   <dependencyManagement>
@@ -138,6 +178,27 @@
 
     <pluginManagement>
       <plugins>
+        <!-- implicit lifecycle-bound plugins (from fluxnova-release-parent) -->
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-clean-plugin</artifactId>
+          <version>${plugin.version.clean}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-compiler-plugin</artifactId>
+          <version>${plugin.version.compiler}</version>
+          <configuration>
+            <release>${version.java}</release>
+            <source>${version.java}</source>
+            <target>${version.java}</target>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-deploy-plugin</artifactId>
+          <version>${plugin.version.deploy}</version>
+        </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
           <artifactId>maven-site-plugin</artifactId>
@@ -148,17 +209,50 @@
           <artifactId>maven-project-info-reports-plugin</artifactId>
           <version>3.8.0</version>
         </plugin>
+
+        <!-- jar-plugin: useDefaultManifestFile=false overrides the parent default (true) -->
         <plugin>
           <artifactId>maven-jar-plugin</artifactId>
           <version>3.4.2</version>
           <configuration>
             <useDefaultManifestFile>false</useDefaultManifestFile>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
           </configuration>
         </plugin>
         <plugin>
           <groupId>org.apache.maven.plugins</groupId>
-          <artifactId>maven-gpg-plugin</artifactId>
+          <artifactId>maven-assembly-plugin</artifactId>
+          <version>${plugin.version.assembly}</version>
           <configuration>
+            <archive>
+              <manifest>
+                <addDefaultImplementationEntries>true</addDefaultImplementationEntries>
+              </manifest>
+            </archive>
+          </configuration>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-source-plugin</artifactId>
+          <version>${plugin.version.source}</version>
+        </plugin>
+
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-javadoc-plugin</artifactId>
+          <version>${plugin.version.javadoc}</version>
+        </plugin>
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-gpg-plugin</artifactId>
+          <version>${plugin.version.gpg}</version>
+          <configuration>
+            <useAgent>false</useAgent>
             <gpgArguments>
               <arg>--pinentry-mode</arg>
               <arg>loopback</arg>
@@ -166,6 +260,59 @@
           </configuration>
         </plugin>
 
+        <plugin>
+          <groupId>org.apache.maven.plugins</groupId>
+          <artifactId>maven-release-plugin</artifactId>
+          <version>${plugin.version.release}</version>
+          <configuration>
+            <autoVersionSubmodules>true</autoVersionSubmodules>
+            <releaseProfiles>release</releaseProfiles>
+            <goals>${release.goals}</goals>
+          </configuration>
+        </plugin>
+        <plugin>
+          <groupId>org.sonatype.central</groupId>
+          <artifactId>central-publishing-maven-plugin</artifactId>
+          <version>${plugin.version.publish}</version>
+          <extensions>true</extensions>
+          <configuration>
+            <publishingServerId>${publish.server.id}</publishingServerId>
+            <!-- TODO: its set to false to manually validate the artifacts before publishing, set it to true once successfully tested with all dependent projects-->
+            <autoPublish>false</autoPublish>
+          </configuration>
+        </plugin>
+
+        <!-- license plugin base config (from fluxnova-bpm-release-parent); the actual
+             <plugins> entry below overrides includes/mapping to add Scala sources -->
+        <plugin>
+          <groupId>com.mycila</groupId>
+          <artifactId>license-maven-plugin</artifactId>
+          <version>${plugin.version.license}</version>
+          <configuration>
+            <skipExistingHeaders>false</skipExistingHeaders>
+            <includes>
+              <include>**/*.java</include>
+              <include>**/*.sql</include>
+              <include>**/main/**/engine/**/*.xml</include>
+              <include>**/BpmPlatform.xsd</include>
+              <include>**/ProcessApplication.xsd</include>
+            </includes>
+            <excludes>
+              <exclude>**/org/finos/fluxnova/bpm/engine/impl/calendar/CronExpression.java</exclude>
+              <exclude>**/org/finos/fluxnova/bpm/engine/impl/juel/*.java</exclude>
+              <exclude>**/org/finos/fluxnova/bpm/engine/impl/javax/el/*.java</exclude>
+              <exclude>**/org/finos/fluxnova/bpm/engine/spring/components/**/*.java</exclude>
+              <exclude>**/org/finos/fluxnova/bpm/engine/spring/annotations/*.java</exclude>
+              <exclude>**/org/finos/fluxnova/bpm/engine/impl/digest/_apacheCommonsCodec/*.java</exclude>
+              <exclude>**/org/finos/fluxnova/bpm/licensecheck/_apacheCommonsCodec/*.java</exclude>
+              <exclude>**/node_modules/**</exclude>
+              <exclude>.mvn/wrapper/MavenWrapperDownloader.java</exclude>
+            </excludes>
+            <mapping>
+              <java>SLASHSTAR_STYLE</java>
+            </mapping>
+          </configuration>
+        </plugin>
       </plugins>
     </pluginManagement>
 
@@ -428,6 +575,101 @@
 
               </relocations>
 
+              <!-- whenever we shade dependencies, concatenate their NOTICE files (from fluxnova-bpm-release-parent) -->
+              <transformers combine.children="append">
+                <transformer implementation="org.apache.maven.plugins.shade.resource.ApacheNoticeResourceTransformer">
+                  <addHeader>false</addHeader>
+                </transformer>
+              </transformers>
+
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <!-- third-party dependency BOM generation (from fluxnova-bpm-release-parent),
+           active because skip-third-party-bom is overridden to false above -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-dependency-plugin</artifactId>
+        <version>2.10</version>
+        <executions>
+          <execution>
+            <id>list-deps</id>
+            <goals>
+              <goal>list</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <skip>${skip-third-party-bom}</skip>
+              <includeScope>test</includeScope><!-- Gives all dependencies; scopes filtering is applied in the ant step -->
+              <sort>true</sort>
+              <excludeGroupIds>org.finos.fluxnova</excludeGroupIds>
+              <outputFile>${project.build.directory}/dependencies/dependencies-generated.txt</outputFile>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <version>3.2.0</version>
+        <executions>
+          <!-- Reformats the dependency list:
+            - into a plain list (no header line, no indentation)
+            - Filters all dependencies in unwanted scopes -->
+          <execution>
+            <id>reformat-dependencies</id>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+                <skip>${skip-third-party-bom}</skip>
+                <target>
+                  <copy file="${project.build.directory}/dependencies/dependencies-generated.txt" tofile="${project.build.directory}/dependencies.txt">
+                    <filterchain>
+                      <linecontains negate="true"><!-- Remove header line -->
+                        <contains value="The following files have been resolved" />
+                      </linecontains>
+                      <linecontainsregexp><!-- only keep the desired scopes -->
+                        <regexp pattern=":(?:${third-party-bom-scopes})$" />
+                      </linecontainsregexp>
+                      <tokenfilter>
+                        <replaceregex pattern=":(?:${third-party-bom-scopes})$" replace="" /> <!-- Remove scope -->
+                        <trim /><!-- Remove whitespace -->
+                        <ignoreblank />
+                      </tokenfilter>
+                    </filterchain>
+                  </copy>
+                </target>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.codehaus.mojo</groupId>
+        <artifactId>build-helper-maven-plugin</artifactId>
+        <version>1.12</version>
+        <executions>
+          <!-- Attaches the dependency BOM to the Maven build so
+            that it can be consumed as a Maven artifact in the license book
+            module -->
+          <execution>
+            <id>attach-deps</id>
+            <phase>package</phase>
+            <goals>
+              <goal>attach-artifact</goal>
+            </goals>
+            <configuration>
+              <skipAttach>${skip-third-party-bom}</skipAttach>
+              <artifacts>
+                <artifact>
+                  <file>${project.build.directory}/dependencies.txt</file>
+                  <type>txt</type>
+                  <classifier>third-party-bom</classifier>
+                </artifact>
+              </artifacts>
             </configuration>
           </execution>
         </executions>

@@ -7,6 +7,7 @@
   <version>3.0.0-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>FEEL Scala Engine</name>
+  <description>A Scala implementation of the DMN FEEL (Friendly Enough Expression Language) engine, providing a parser, interpreter and Java/Scala API to evaluate FEEL expressions.</description>
 
   <url>http://fluxnova.finos.org</url>
 
@@ -58,7 +59,7 @@
     <gpg.useagent>true</gpg.useagent>
     <gpg.executable>gpg</gpg.executable>
     <publish.server.id>ossrh</publish.server.id>
-    <release.goals>install org.sonatype.central:central-publishing-maven-plugin:0.7.0:publish</release.goals>
+    <release.goals>install org.sonatype.central:central-publishing-maven-plugin:0.11.0:publish</release.goals>
     <skip.source.attach>false</skip.source.attach>
 
     <!-- third-party license bom (from fluxnova-bpm-release-parent, overridden here to generate the bom) -->
@@ -75,7 +76,7 @@
     <plugin.version.javadoc>2.9.1</plugin.version.javadoc>
     <plugin.version.gpg>1.6</plugin.version.gpg>
     <plugin.version.release>3.3.1</plugin.version.release>
-    <plugin.version.publish>0.7.0</plugin.version.publish>
+    <plugin.version.publish>0.11.0</plugin.version.publish>
     <plugin.version.license>5.0.0</plugin.version.license>
     <plugin.version.shade>3.6.1</plugin.version.shade>
   </properties>

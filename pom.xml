@@ -78,7 +78,7 @@
     <plugin.version.release>3.3.1</plugin.version.release>
     <plugin.version.publish>0.11.0</plugin.version.publish>
     <plugin.version.license>5.0.0</plugin.version.license>
-    <plugin.version.shade>3.6.1</plugin.version.shade>
+    <plugin.version.shade>3.6.2</plugin.version.shade>
   </properties>
 
   <dependencyManagement>

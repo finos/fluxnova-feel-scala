@@ -32,6 +32,12 @@ Please have a look at the [developer documentation](https://github.com/finos/flu
 
 Contributions are welcome.Please have a look at the [Contribution Guide](./CONTRIBUTING.md).
 
+## Release
+
+Releases are handled manually through GitHub Actions using `.github/workflows/release.yml`. Start from a `MAJOR.MINOR.PATCH-SNAPSHOT` Maven version, create and push a `release/major`, `release/minor`, or `release/patch` branch, then manually run the workflow on that branch to publish signed Maven artifacts, create the release tag, and bump `pom.xml` to the next development version.
+
+For complete release prerequisites, branch naming rules, and verification steps, see [RELEASE.md](RELEASE.md).
+
 ## License
 
 Copyright 2025 FINOS

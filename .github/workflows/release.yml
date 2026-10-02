@@ -1,10 +1,10 @@
 # Workflow: Release and publish artifacts to Maven Central
 # Purpose: Builds, signs, and publishes Maven artifacts to Sonatype OSSRH, then tags the released version.
-# Prerequisites: pom.xml must be on a *-SNAPSHOT version; We need to change logic for non-SNAPSHOT versions.
+# Prerequisites: pom.xml must be on a *-SNAPSHOT version.
 # Notes:
-#   - release/* branches: major version increment (e.g., 1.2.3-SNAPSHOT to 2.0.0-SNAPSHOT)
-#   - hotfix/* branches: minor version increment (e.g., 1.2.3-SNAPSHOT to 1.3.0-SNAPSHOT)
-# Adjust version computation logic if patch releases are desired instead of minor bumps (e.g., 1.2.3-SNAPSHOT to 1.3.0-SNAPSHOT).
+#   - release/major or release/major/*: next major version (e.g., 1.2.3-SNAPSHOT to 2.0.0-SNAPSHOT)
+#   - release/minor or release/minor/*: next minor version (e.g., 1.2.3-SNAPSHOT to 1.3.0-SNAPSHOT)
+#   - release/patch or release/patch/*: next patch version (e.g., 1.2.3-SNAPSHOT to 1.2.4-SNAPSHOT)
 
 name: "Release and publish artifacts to Maven Central"
 
@@ -16,10 +16,6 @@ env:
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - 'release/*'
-      - 'hotfix/*'
 
 permissions:
   contents: write
@@ -27,6 +23,7 @@ permissions:
 jobs:
   publish-central:
     name: Publish to Maven Central
+    if: startsWith(github.ref, 'refs/heads/release/')
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repo
@@ -82,17 +79,27 @@ jobs:
           a=(${n//\./ })
           
           # Determine version increment based on branch name
-          if [[ "$BRANCH_NAME" == release/* ]]; then
-            # Major version increment for release branches
+          if [[ "$BRANCH_NAME" == "release/major" || "$BRANCH_NAME" == release/major/* ]]; then
+            # Major version increment
             nextMajor=$((${a[0]} + 1))
             developmentVersion="${nextMajor}.0.0-SNAPSHOT"
-            echo "Branch type: Release - Incrementing major version: ${releaseVersion} → ${developmentVersion}"
-          elif [[ "$BRANCH_NAME" == hotfix/* ]]; then
-            # Minor version increment for hotfix branches
-            currentMajor=${a[0]}
+            echo "Branch type: Major Release - ${releaseVersion} → ${developmentVersion}"
+            
+            elif [[ "$BRANCH_NAME" == "release/minor" || "$BRANCH_NAME" == release/minor/* ]]; then
+            # Minor version increment
             nextMinor=$((${a[1]} + 1))
-            developmentVersion="${currentMajor}.${nextMinor}.0-SNAPSHOT"
-            echo "Branch type: Hotfix - Incrementing minor version: ${releaseVersion} → ${developmentVersion}"
+            developmentVersion="${a[0]}.${nextMinor}.0-SNAPSHOT"
+            echo "Branch type: Minor Release - ${releaseVersion} → ${developmentVersion}"
+            
+            elif [[ "$BRANCH_NAME" == "release/patch" || "$BRANCH_NAME" == release/patch/* ]]; then
+            # Patch version increment
+            nextPatch=$((${a[2]} + 1))
+            developmentVersion="${a[0]}.${a[1]}.${nextPatch}-SNAPSHOT"
+          echo "Branch type: Patch Release - ${releaseVersion} → ${developmentVersion}"
+            
+            else
+          echo "Unsupported branch name: ${BRANCH_NAME}"
+            exit 1
           fi
           
           echo "DEVELOPMENT_VERSION=${developmentVersion}" >> $GITHUB_ENV

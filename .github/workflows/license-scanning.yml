@@ -1,0 +1,110 @@
+name: License Scanning
+
+on:
+  schedule:
+    - cron: '0 8 * * 1'
+  workflow_dispatch:
+  workflow_call:
+  push:
+    branches:
+      - main
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  scan-maven:
+    name: Scan Maven Licenses
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up JDK
+        uses: actions/setup-java@v4
+        with:
+          java-version: 21
+          distribution: 'temurin'
+
+      - name: Cache Maven dependencies
+        uses: actions/cache@v4
+        with:
+          path: ~/.m2/repository
+          key: ${{ runner.os }}-maven-license-${{ hashFiles('**/pom.xml') }}
+          restore-keys: |
+            ${{ runner.os }}-maven-license-
+            ${{ runner.os }}-maven-
+
+      - name: Generate third-party license report
+        run: |
+          mvn -B \
+            org.codehaus.mojo:license-maven-plugin:2.4.0:add-third-party \
+            -Dlicense.includedScopes=compile,runtime \
+            -Dlicense.excludedScopes=test,provided,system \
+            -Dlicense.sortArtifactByName=true \
+            -Dlicense.outputDirectory=target \
+            -Dlicense.thirdPartyFilename=THIRD-PARTY.txt
+
+      - name: Validate licenses against FINOS Category A policy
+        shell: bash
+        run: |
+          THIRD_PARTY_FILE="target/THIRD-PARTY.txt"
+
+          if [[ ! -f "$THIRD_PARTY_FILE" ]]; then
+            echo "No third-party dependencies found (or file not generated)"
+            exit 0
+          fi
+
+          echo "=== Third-party Maven licenses ==="
+          cat "$THIRD_PARTY_FILE"
+          echo ""
+          echo "=== Validating against FINOS Category A allowed licenses ==="
+
+          # FINOS Category A approved license patterns (case-insensitive grep -E patterns)
+          # Reference: https://community.finos.org/docs/governance/software-projects/license-categories/
+          # Category A: Apache-2.0, Apache-1.1, MIT, ISC, BSD-2-Clause, BSD-3-Clause, 0BSD, Unlicense,
+          #             Python-2.0, PostgreSQL, BSL-1.0, W3C, WTFPL, Xnet, NCSA, ZPL-2.0, zlib,
+          #             BlueOak-1.0.0, CC0-1.0, CC-BY-4.0
+          # EPL (Eclipse Public License) 1.0 and 2.0: Approved by FINOS
+          # NOTE: LGPL, GPL, MPL, CDDL, CC-*, OFL are NOT allowed
+          # Dual-licensed dependencies pass if one option is Category A (e.g., EPL/LGPL passes on EPL)
+          # Per-package exceptions (e.g., UPL-1.0, EDL-1.0) require approval and a NOTICE file entry.
+          ALLOWED_PATTERN='Apache|MIT|ISC|BSD|0BSD|Unlicense|Python-2|PostgreSQL|BSL-1|Boost Software License|W3C|WTFPL|Xnet|NCSA|ZPL-2|zlib|BlueOak-1|CC0-1|CC-BY-4|Public Domain|EPL|Eclipse Public License'
+
+          FAILED=0
+          CHECKED=0
+
+          while IFS= read -r line; do
+            [[ -z "$line" ]] && continue
+            [[ "$line" == *"Lists of"* ]] && continue
+
+            trimmed="${line#"${line%%[![:space:]]*}"}"
+            if [[ "$trimmed" =~ ^\(([^\)]+)\) ]]; then
+              LICENSE="${BASH_REMATCH[1]}"
+              ARTIFACT="${trimmed#*) }"
+              CHECKED=$((CHECKED + 1))
+
+              if ! echo "$LICENSE" | grep -qiE "$ALLOWED_PATTERN"; then
+                echo "DISALLOWED: $LICENSE -> $ARTIFACT"
+                FAILED=$((FAILED + 1))
+              fi
+            fi
+          done < "$THIRD_PARTY_FILE"
+
+          echo ""
+          echo "=== Summary ==="
+          echo "Checked: $CHECKED dependencies"
+          echo "Disallowed: $FAILED"
+
+          if [[ $FAILED -gt 0 ]]; then
+            echo ""
+            echo "ERROR: Found $FAILED dependencies with disallowed licenses."
+            echo "Please review and either:"
+            echo "  1. Replace the dependency with an alternative that has an approved license"
+            echo "  2. Request an exception via FINOS governance if the license is acceptable"
+            exit 1
+          fi
+
+          echo "All Maven licenses are compliant with FINOS Category A policy."

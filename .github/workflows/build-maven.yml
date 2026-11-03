@@ -17,6 +17,9 @@ concurrency:
     format('ci-pr-{0}-{1}', github.ref, github.workflow) }}
   cancel-in-progress: true
 
+permissions:
+  contents: read
+
 jobs:
   build:
     name: Build and Test

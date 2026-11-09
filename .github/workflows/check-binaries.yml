@@ -1,0 +1,35 @@
+name: Check binary files
+
+# Generated executables must not be committed (OSPS-QA-05.01).
+on:
+  pull_request:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+
+jobs:
+  check-binaries:
+    name: No committed binaries
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Fail on added binary files
+      env:
+        BASE_SHA: ${{ github.event.pull_request.base.sha || github.event.before }}
+        HEAD_SHA: ${{ github.sha }}
+      run: |
+        added=$(git diff --diff-filter=A --name-only "$BASE_SHA" "$HEAD_SHA" \
+          | grep -Ei '\.(jar|class|war|ear|zip|exe|dll|so|dylib)$' || true)
+        if [ -n "$added" ]; then
+          echo "::error::Generated binary files must not be committed:"
+          echo "$added"
+          exit 1
+        fi
+        echo "No binary files added."

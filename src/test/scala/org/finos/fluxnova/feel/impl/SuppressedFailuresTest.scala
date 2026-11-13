@@ -114,4 +114,10 @@ class SuppressedFailuresTest
     )
   }
 
+  it should "not report suppressed failures of a previous evaluation" in {
+    evaluateExpression("x + 1").hasSuppressedFailures should be(true)
+
+    evaluateExpression("1 + 1").suppressedFailures should be(empty)
+  }
+
 }

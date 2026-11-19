@@ -50,7 +50,7 @@
     <!-- scala / feel-engine specific -->
     <scala.version>2.13.18</scala.version>
     <scala.binary.version>2.13.6</scala.binary.version>
-    <version.log4j>2.24.2</version.log4j>
+    <version.log4j>2.26.1</version.log4j>
     <version.uuid>5.2.0</version.uuid>
 
     <!-- release / publishing (from fluxnova-release-parent) -->
